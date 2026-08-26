@@ -1,0 +1,42 @@
+:root{
+  --ana:#1F3864; --ikincil:#2E5C94; --zemin:#F6F8FB; --kart:#FFFFFF;
+  --kenar:#D9E1EE; --metin:#1B2436; --soluk:#66718A; --acik:#EEF2F8;
+  --onay:#2F7D5D; --onayZemin:#E7F3ED; --onayKenar:#BFE0D0;
+  --uyariZemin:#FDF3EA; --uyariKenar:#F0DCC4; --uyariMetin:#8A4E1C;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--zemin); color:var(--metin);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.kap{max-width:720px; margin:0 auto; padding:0 20px}
+header{background:var(--kart); border-bottom:1px solid var(--kenar); padding:18px 0}
+.marka{display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit}
+.simge{
+  width:38px; height:38px; border-radius:11px; background:var(--ana);
+  display:flex; align-items:center; justify-content:center; flex:none;
+}
+.marka b{font-size:17px; font-weight:600}
+main{padding:38px 0 60px}
+h1{font-size:26px; line-height:1.3; margin:0 0 6px}
+.tarih{color:var(--soluk); font-size:14px; margin:0 0 30px}
+h2{font-size:19px; margin:34px 0 10px; padding-top:6px}
+h3{font-size:16px; margin:22px 0 8px}
+p{margin:0 0 13px}
+ul,ol{margin:0 0 13px; padding-left:22px}
+li{margin-bottom:7px}
+a{color:var(--ikincil)}
+table{width:100%; border-collapse:collapse; margin:0 0 16px; font-size:14.5px}
+th,td{text-align:left; padding:9px 11px; border:1px solid var(--kenar); vertical-align:top}
+th{background:var(--acik); font-weight:600}
+.sar{overflow-x:auto}
+.kart{
+  background:var(--kart); border:1px solid var(--kenar);
+  border-radius:14px; padding:16px 19px; margin:0 0 16px;
+}
+.kart p:last-child{margin-bottom:0}
+.vurgu{background:var(--onayZemin); border-color:var(--onayKenar)}
+.dikkat{background:var(--uyariZemin); border-color:var(--uyariKenar)}
+footer{border-top:1px solid var(--kenar); padding:26px 0 40px; color:var(--soluk); font-size:14px}
+footer a{margin-right:16px; display:inline-block}
