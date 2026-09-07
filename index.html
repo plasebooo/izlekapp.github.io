@@ -166,6 +166,26 @@
   .sss details[open] summary::after{content:'–'}
   .sss details p{padding:0 0 17px; margin:0; color:var(--soluk); font-size:15px}
 
+  /* ---------- FİYAT ---------- */
+  .fiyatKart{
+    background:var(--kart); border:1px solid var(--kenar);
+    border-radius:20px; padding:34px 32px; text-align:center;
+    max-width:440px; margin:0 auto;
+  }
+  .fiyatKart .tutar{
+    font-size:clamp(34px,4vw,44px); font-weight:700;
+    color:var(--ana); line-height:1.1;
+  }
+  .fiyatKart .birim{display:block; color:var(--soluk); font-size:15px; margin-top:8px}
+  .fiyatKart .aylik{color:var(--soluk); font-size:14.5px; margin:16px 0 0}
+  .fiyatKart ul{
+    list-style:none; padding:0; margin:22px 0 0; text-align:left;
+    display:grid; gap:9px; font-size:15px;
+  }
+  .fiyatKart li{padding-left:22px; position:relative; color:var(--soluk)}
+  .fiyatKart li::before{content:'✓'; position:absolute; left:0; color:var(--ana)}
+  .bolum.acikZemin .fiyatKart{background:var(--zemin)}
+
   /* ---------- KAPANIŞ ---------- */
   .kapanis{
     background:var(--ana); color:#fff;
@@ -397,7 +417,7 @@
         <h4>Sunucuda duran</h4>
         <ul>
           <li>Adınız ve e-posta adresiniz</li>
-          <li>Abonelik durumunuz</li>
+          <li>Lisans durumunuz</li>
           <li>Bize yazdığınız mesajlar</li>
         </ul>
         <p style="margin:14px 0 0; font-size:14px; color:var(--soluk)">
@@ -433,9 +453,37 @@
 </section>
 
 <!-- =============================================================
-     NASIL BAŞLANIR
+     FİYAT
      ============================================================= -->
 <section class="bolum acikZemin">
+  <div class="kap">
+    <div class="basligi">
+      <span class="etiket">Fiyat</span>
+      <h2>Tek ödeme, bir eğitim yılı</h2>
+      <p>
+        Aylık abonelik yok, otomatik yenileme yok. Lisans eylülde
+        başlar, temmuz sonunda biter.
+      </p>
+    </div>
+
+    <div class="fiyatKart">
+      <div class="tutar">4.500 ₺</div>
+      <span class="birim">2026-2027 eğitim yılı lisansı</span>
+      <p class="aylik">Aylığa vurulduğunda 375 ₺ · 3 gün ücretsiz deneme</p>
+      <ul>
+        <li>180 günlük plan, 10 aylık plan</li>
+        <li>48 resmî evrak, 52 veli bülteni</li>
+        <li>Uygulandı takibi ve beceri raporu</li>
+        <li>Yıl içinde eklenen içerik ücretsiz</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================
+     NASIL BAŞLANIR
+     ============================================================= -->
+<section class="bolum">
   <div class="kap">
     <div class="basligi">
       <span class="etiket">Nasıl başlanır</span>
@@ -471,7 +519,7 @@
 <!-- =============================================================
      SSS
      ============================================================= -->
-<section class="bolum">
+<section class="bolum acikZemin">
   <div class="kap">
     <div class="basligi">
       <span class="etiket">Merak edilenler</span>
@@ -511,6 +559,23 @@
         </p>
       </details>
       <details>
+        <summary>Denemek için ödeme gerekiyor mu?</summary>
+        <p>
+          Hayır. E-posta adresinizi doğruladığınızda <b>72 saatlik
+          (3 gün)</b> ücretsiz deneme başlar; kart bilgisi istenmez ve
+          süre dolduğunda kendiliğinden lisans başlamaz.
+        </p>
+      </details>
+      <details>
+        <summary>Ödeme bir kez mi alınıyor?</summary>
+        <p>
+          Evet. Eğitim yılı lisansı tek ödemedir; kendiliğinden
+          yenilenmez. İlk on dört gün içinde gerekçesiz cayabilirsiniz,
+          sonrasında kullanılmayan süre gün hesabıyla iade edilir.
+          Ayrıntılar <a href="/iade.html">iade politikasında</a>.
+        </p>
+      </details>
+      <details>
         <summary>Hesabımı ve verilerimi silebilir miyim?</summary>
         <p>
           Evet. Uygulamadan <b>Profil → Ayarlar → Verilerimi sil</b>
@@ -540,6 +605,7 @@
 </section>
 
 <footer class="kap">
+  <a href="/kosullar.html">Kullanım Koşulları</a>
   <a href="/gizlilik.html">Gizlilik Politikası</a>
   <a href="/kvkk.html">KVKK Aydınlatma Metni</a>
   <a href="/hesap-silme.html">Hesap silme</a>
