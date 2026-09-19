@@ -80,7 +80,90 @@
   .kucukNot{font-size:13px; color:#9FB4D0; margin:14px 0 0}
 
   /* ---------- TELEFON ---------- */
-  .telefon{justify-self:center; filter:drop-shadow(0 24px 48px rgba(0,0,0,.34))}
+  /*
+    Telefonun içinde **uygulamanın gerçek ekran görüntüleri** duruyor
+    ve ziyaretçi alt çubuktaki sekmelere dokunarak gezinebiliyor.
+
+    Alt çubuğu burada **çizmiyoruz**: uygulamanın kendi çubuğu karenin
+    içinde zaten var. İkinci bir çubuk çizmek, uygulama değiştiğinde
+    sitenin sessizce eskimesi demekti. Site yalnızca o çubuğun üstüne
+    görünmez dokunma alanları koyuyor; hangi sekmenin seçili olduğunu
+    da karenin kendisi söylüyor.
+
+    --telefon-oran: karelerin en-boy oranı. Elle yazılmıyor —
+    `arac/magaza/site_telefon_hazirla.py` görüntüleri üretirken buraya
+    yazıyor. Böylece çerçeve karelerin kendi şekline oturuyor; hangi
+    telefondan çekilirse çekilsin ne ezilme ne kırpılma oluyor.
+  */
+  .telefon{
+    --telefon-oran: 0.5048;
+    /* Alt çubuğun karedeki yüksekliği. Karenin yüzdesi olarak yazılı
+       ki farklı yoğunluktaki telefonlarda da denk gelsin.
+       Çubuk karede %6.6 yer kaplıyor; alan bilerek biraz yüksek
+       tutuluyor ki küçük ekranda parmak çubuğun üstüne denk gelse de
+       sekme değişsin. Fazlası içeriğin üstünü kaplardı. */
+    --sekme-yuksekligi: 9%;
+    justify-self:center; margin:0; width:264px; max-width:100%;
+    filter:drop-shadow(0 24px 48px rgba(0,0,0,.34));
+  }
+  .telefon-govde{
+    background:#0E1B31; border-radius:34px; padding:10px;
+    position:relative;
+  }
+  /* Ekranın üstündeki ada. Kamerayı taklit etmek için değil: bu şerit
+     olmadan çerçeve telefon gibi okunmuyor, boş bir dikdörtgen oluyor. */
+  .telefon-govde::before{
+    content:''; position:absolute; top:17px; left:50%;
+    transform:translateX(-50%);
+    width:58px; height:7px; border-radius:3.5px; background:#0E1B31;
+    z-index:3;
+  }
+  .telefon-ekran{
+    position:relative; overflow:hidden; border-radius:27px;
+    aspect-ratio:var(--telefon-oran);
+    background:#FBF6F0;
+  }
+  .telefon-kare{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:top;
+    opacity:0; transition:opacity .45s ease;
+  }
+  .telefon-kare.acik{opacity:1}
+
+  /* Dokunma alanları: alt çubuk beş yuvaya bölünüyor —
+     Bugün · Akış · Paylaş · Kütüphane · Profil. Beşi de gerçek
+     (Ozan, Adım 294): ortadaki artı düğmesi önce gizleniyordu, şimdi
+     kendi karesi var. */
+  .telefon-sekmeler{
+    position:absolute; left:0; right:0; bottom:0;
+    height:var(--sekme-yuksekligi);
+    display:grid; grid-template-columns:repeat(5,1fr);
+  }
+  .telefon-sekmeler button{
+    appearance:none; background:transparent; border:0; padding:0;
+    margin:2px; border-radius:10px; cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .18s ease;
+  }
+  /* Ortadaki yuva bir zamanlar gizliydi ve `display:none` ile
+     ızgaradan çıkarıldığı için kalan dört alan bir yuva sola kayıyor,
+     ziyaretçi "Kütüphane"ye dokunurken Profil'e basıyordu (Adım 281).
+     Beş karenin beş yuvası olunca gizlenecek bir şey kalmadı; kayma
+     ihtimali de kalktı. */
+  .telefon-sekmeler button:hover{background:rgba(31,56,100,.10)}
+  .telefon-sekmeler button:focus-visible{
+    outline:2px solid var(--ana); outline-offset:-2px;
+  }
+  .gizliYazi{
+    position:absolute; width:1px; height:1px; overflow:hidden;
+    clip-path:inset(50%); white-space:nowrap;
+  }
+
+  /* Hareketi azaltılmış tarayıcıda geçiş anında olur; betik de
+     kendiliğinden dönmeyi hiç başlatmaz. */
+  @media (prefers-reduced-motion: reduce){
+    .telefon-kare{transition:none}
+  }
 
   /* ---------- BÖLÜMLER ---------- */
   .bolum{padding:66px 0}
@@ -197,7 +280,7 @@
   @media (max-width:860px){
     .kahraman{padding:44px 0 52px}
     .kahraman .kap{grid-template-columns:1fr; gap:36px}
-    .telefon{order:2; max-width:260px}
+    .telefon{order:2; width:260px}
     .uclu, .adimlar, .sayilar{grid-template-columns:1fr}
     .sayilar{gap:22px}
     .sinir{grid-template-columns:1fr}
@@ -249,69 +332,59 @@
       <p class="kucukNot">Google Play'de yakında · İlk kayıtta deneme süresi</p>
     </div>
 
-    <!-- Uygulamanın Bugün ekranının sadeleştirilmiş hâli.
-         Gerçek ekran görüntüsü değil, çizim: mağaza görselleri
-         hazırlanınca burası onlarla değişecek. -->
-    <svg class="telefon" width="264" height="516" viewBox="0 0 264 516"
-         xmlns="http://www.w3.org/2000/svg" role="img"
-         aria-label="İzlek uygulamasının Bugün ekranının çizimi">
-      <rect x="2" y="2" width="260" height="512" rx="34" fill="#0E1B31"/>
-      <rect x="10" y="10" width="244" height="496" rx="27" fill="#F6F8FB"/>
-      <rect x="103" y="17" width="58" height="7" rx="3.5" fill="#0E1B31"/>
+    <!-- Telefonun içinde uygulamanın gerçek ekranları var.
+         Kareler `arac/magaza/site_telefon_hazirla.py` ile üretiliyor;
+         yeni sürüm çekildiğinde dosyalar değişiyor, bu işaretleme
+         aynı kalıyor. -->
+    <figure class="telefon">
+      <div class="telefon-govde">
+        <div class="telefon-ekran">
+          <img class="telefon-kare acik" id="kare-bugun"
+               src="/telefon-bugun.webp"
+               alt="Bugün ekranı: günün planı, uygulandı işareti ve yaklaşan etkinlikler"
+               fetchpriority="high" decoding="async">
+          <img class="telefon-kare" id="kare-akis"
+               src="/telefon-akis.webp"
+               alt="Akış ekranı: öğretmenlerin paylaştığı etkinlikler"
+               loading="lazy" decoding="async">
+          <img class="telefon-kare" id="kare-paylas"
+               src="/telefon-paylas.webp"
+               alt="Yeni paylaşım ekranı: etkinlik fotoğrafı, açıklama ve etiketler"
+               loading="lazy" decoding="async">
+          <img class="telefon-kare" id="kare-kutuphane"
+               src="/telefon-kutuphane.webp"
+               alt="Kütüphane ekranı: aylık planlar, resmî evraklar ve veli bültenleri"
+               loading="lazy" decoding="async">
+          <img class="telefon-kare" id="kare-profil"
+               src="/telefon-profil.webp"
+               alt="Profil ekranı: lisans, sınıf bilgileri ve yedekleme"
+               loading="lazy" decoding="async">
 
-      <!-- üst çubuk -->
-      <rect x="10" y="32" width="244" height="42" fill="#FFFFFF"/>
-      <rect x="26" y="44" width="18" height="18" rx="5" fill="#1F3864"/>
-      <rect x="50" y="49" width="34" height="8" rx="4" fill="#1B2436"/>
-      <circle cx="234" cy="53" r="6" fill="none" stroke="#D9E1EE" stroke-width="2"/>
-      <line x1="10" y1="74" x2="254" y2="74" stroke="#D9E1EE" stroke-width="1"/>
-
-      <!-- tarih şeridi -->
-      <rect x="26" y="88" width="104" height="7" rx="3.5" fill="#66718A"/>
-      <circle cx="176" cy="91" r="4" fill="#2F7D5D"/>
-      <circle cx="192" cy="91" r="4" fill="#2F7D5D"/>
-      <circle cx="208" cy="91" r="4" fill="#2F7D5D"/>
-      <circle cx="224" cy="91" r="4" fill="none" stroke="#D9E1EE" stroke-width="2"/>
-      <circle cx="240" cy="91" r="4" fill="none" stroke="#D9E1EE" stroke-width="2"/>
-
-      <!-- plan kartı -->
-      <rect x="26" y="108" width="212" height="126" rx="14" fill="#FFFFFF" stroke="#D9E1EE"/>
-      <rect x="42" y="126" width="52" height="7" rx="3.5" fill="#C46A2B"/>
-      <rect x="42" y="145" width="150" height="11" rx="5.5" fill="#1B2436"/>
-      <rect x="42" y="163" width="112" height="11" rx="5.5" fill="#1B2436"/>
-      <rect x="42" y="190" width="46" height="18" rx="9" fill="#EEF2F8"/>
-      <rect x="94" y="190" width="58" height="18" rx="9" fill="#EEF2F8"/>
-      <rect x="158" y="190" width="40" height="18" rx="9" fill="#EEF2F8"/>
-      <rect x="42" y="216" width="120" height="6" rx="3" fill="#D9E1EE"/>
-
-      <!-- uygulandı düğmesi -->
-      <rect x="26" y="246" width="212" height="46" rx="12" fill="#E7F3ED" stroke="#BFE0D0"/>
-      <path d="M104 269l7 7 14-14" fill="none" stroke="#2F7D5D"
-            stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <rect x="132" y="265" width="44" height="8" rx="4" fill="#2F7D5D"/>
-
-      <!-- bülten satırı -->
-      <rect x="26" y="304" width="212" height="60" rx="14" fill="#FFFFFF" stroke="#D9E1EE"/>
-      <rect x="42" y="320" width="28" height="28" rx="8" fill="#EEF2F8"/>
-      <rect x="80" y="324" width="88" height="8" rx="4" fill="#1B2436"/>
-      <rect x="80" y="339" width="120" height="6" rx="3" fill="#66718A"/>
-
-      <!-- yaklaşan hafta -->
-      <rect x="26" y="376" width="212" height="52" rx="14" fill="#FDF3EA" stroke="#F0DCC4"/>
-      <rect x="42" y="392" width="96" height="8" rx="4" fill="#8A4E1C"/>
-      <rect x="42" y="407" width="140" height="6" rx="3" fill="#9C6636"/>
-
-      <!-- alt menü -->
-      <line x1="10" y1="452" x2="254" y2="452" stroke="#D9E1EE" stroke-width="1"/>
-      <circle cx="52" cy="474" r="7" fill="#1F3864"/>
-      <circle cx="112" cy="474" r="7" fill="none" stroke="#D9E1EE" stroke-width="2"/>
-      <circle cx="172" cy="474" r="7" fill="none" stroke="#D9E1EE" stroke-width="2"/>
-      <circle cx="228" cy="474" r="7" fill="none" stroke="#D9E1EE" stroke-width="2"/>
-      <rect x="38" y="488" width="28" height="5" rx="2.5" fill="#1F3864"/>
-      <rect x="98" y="488" width="28" height="5" rx="2.5" fill="#D9E1EE"/>
-      <rect x="158" y="488" width="28" height="5" rx="2.5" fill="#D9E1EE"/>
-      <rect x="214" y="488" width="28" height="5" rx="2.5" fill="#D9E1EE"/>
-    </svg>
+          <!-- Alt çubuğun üstündeki görünmez dokunma alanları.
+               Beş yuva, beş kare; hepsi tıklanabilir. -->
+          <div class="telefon-sekmeler" id="telefonSekmeler">
+            <button type="button" data-kare="kare-bugun" aria-pressed="true">
+              <span class="gizliYazi">Bugün ekranını göster</span>
+            </button>
+            <button type="button" data-kare="kare-akis" aria-pressed="false">
+              <span class="gizliYazi">Akış ekranını göster</span>
+            </button>
+            <button type="button" data-kare="kare-paylas" aria-pressed="false">
+              <span class="gizliYazi">Paylaşım ekranını göster</span>
+            </button>
+            <button type="button" data-kare="kare-kutuphane" aria-pressed="false">
+              <span class="gizliYazi">Kütüphane ekranını göster</span>
+            </button>
+            <button type="button" data-kare="kare-profil" aria-pressed="false">
+              <span class="gizliYazi">Profil ekranını göster</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <figcaption class="gizliYazi">
+        İzlek uygulamasının Bugün, Akış, Kütüphane ve Profil ekranları.
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -467,9 +540,9 @@
     </div>
 
     <div class="fiyatKart">
-      <div class="tutar">3.500 ₺</div>
+      <div class="tutar">2.000 ₺</div>
       <span class="birim">2026-2027 eğitim yılı lisansı</span>
-      <p class="aylik">Aylığa vurulduğunda 291 ₺ · 3 gün ücretsiz deneme</p>
+      <p class="aylik">Aylığa vurulduğunda 167 ₺ · 3 gün ücretsiz deneme</p>
       <ul>
         <li>180 günlük plan, 10 aylık plan</li>
         <li>48 resmî evrak, 52 veli bülteni</li>
@@ -613,5 +686,76 @@
   <div style="margin-top:12px">© 2026 İzlek</div>
 </footer>
 
+
+<script>
+/* ===================================================================
+   TELEFON — sekmeler ve kendiliğinden dönme
+
+   Ozan (Adım 281): sekmeler tıklanabilir olacak, ziyaretçi
+   dokunmazsa ekranlar kendiliğinden de dönecek.
+
+   Üç şeye dikkat edildi:
+
+   · **Dokunan kişi kontrolü alıyor.** Bir sekmeye dokunulduğu anda
+     dönme duruyor ve bir daha başlamıyor. Ziyaretçi bakmak istediği
+     ekranda dururken görselin altından kayması, elinden bir şey
+     alınması gibi.
+   · **Görünmeyen şey dönmüyor.** Sayfa aşağı kaydırıldığında
+     zamanlayıcı duruyor (IntersectionObserver): görünmeyen bir
+     görsel için pil harcamanın anlamı yok.
+   · **Hareket azaltılmışsa hiç dönmüyor.** Vestibüler rahatsızlığı
+     olan ziyaretçi için kendiliğinden hareket eden bir görsel
+     rahatsızlık kaynağı; sekmeler yine çalışıyor.
+   =================================================================== */
+(function () {
+  var kap = document.getElementById('telefonSekmeler');
+  if (!kap) return;
+
+  var dugmeler = [].slice.call(kap.querySelectorAll('button[data-kare]'));
+  if (dugmeler.length === 0) return;
+
+  var sira = 0;
+  var zaman = null;
+  var elDegdi = false;
+
+  function goster(i) {
+    sira = (i + dugmeler.length) % dugmeler.length;
+    dugmeler.forEach(function (d, k) {
+      var kare = document.getElementById(d.getAttribute('data-kare'));
+      if (kare) kare.classList.toggle('acik', k === sira);
+      d.setAttribute('aria-pressed', k === sira ? 'true' : 'false');
+    });
+  }
+
+  function basla() {
+    if (elDegdi || zaman) return;
+    zaman = setInterval(function () { goster(sira + 1); }, 4500);
+  }
+
+  function dur() {
+    if (zaman) { clearInterval(zaman); zaman = null; }
+  }
+
+  dugmeler.forEach(function (d, k) {
+    d.addEventListener('click', function () {
+      elDegdi = true;   // kontrol ziyaretçide; bir daha dönmüyor
+      dur();
+      goster(k);
+    });
+  });
+
+  var azHareket = window.matchMedia
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (azHareket) return;
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (girisler) {
+      girisler[0].isIntersecting ? basla() : dur();
+    }, { threshold: 0.35 }).observe(kap);
+  } else {
+    basla();
+  }
+})();
+</script>
 </body>
 </html>
