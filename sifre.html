@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Yeni Şifre · İzlek</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/ortak.css">
+<style>
+  .orta{max-width:520px; margin:0 auto; text-align:center; padding:60px 20px 80px}
+  .isaret{
+    width:74px; height:74px; border-radius:50%; margin:0 auto 22px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .isaret.bekle{background:var(--acik)}
+  .isaret.oldu{background:var(--onayZemin); border:1px solid var(--onayKenar)}
+  .isaret.olmadi{background:var(--uyariZemin); border:1px solid var(--uyariKenar)}
+  .donen{
+    width:26px; height:26px; border-radius:50%;
+    border:3px solid var(--kenar); border-top-color:var(--ana);
+    animation:don .8s linear infinite;
+  }
+  @keyframes don{to{transform:rotate(360deg)}}
+  .orta h1{font-size:23px; margin:0 0 10px}
+  .orta p{color:var(--soluk); font-size:15.5px; margin:0 0 14px}
+  .orta p.koyu{color:var(--metin)}
+  .gizli{display:none}
+  form{text-align:left; background:var(--kart); border:1px solid var(--kenar);
+       border-radius:14px; padding:20px; margin-top:18px}
+  label{display:block; font-weight:600; font-size:14.5px; margin:0 0 6px}
+  .alan{margin:0 0 16px}
+  .kutu{position:relative}
+  input[type=password],input[type=text]{
+    width:100%; font:inherit; font-size:16px; padding:11px 44px 11px 12px;
+    border:1px solid var(--kenar); border-radius:10px; background:#fff; color:var(--metin)}
+  input:focus{outline:2px solid var(--ikincil); outline-offset:1px}
+  .goster{position:absolute; right:6px; top:6px; border:none; background:none;
+          color:var(--soluk); font:inherit; font-size:13px; padding:6px; cursor:pointer}
+  ul.olcut{list-style:none; padding:0; margin:-6px 0 16px; font-size:14px; color:var(--soluk)}
+  ul.olcut li{margin:0 0 3px}
+  ul.olcut li::before{content:"○ "}
+  ul.olcut li.tamam{color:var(--onay)}
+  ul.olcut li.tamam::before{content:"✓ "}
+  .hata{color:var(--uyariMetin); font-size:14.5px; margin:0 0 14px; min-height:0}
+  button.ana{width:100%; font:inherit; font-size:16px; font-weight:600; padding:13px;
+             border:none; border-radius:10px; background:var(--ana); color:#fff; cursor:pointer}
+  button.ana:disabled{opacity:.55; cursor:default}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kap">
+    <a class="marka" href="/">
+      <img class="simge" src="/izlek-simge.png"
+           srcset="/izlek-simge.png 1x, /izlek-simge@2x.png 2x"
+           width="38" height="38" alt="">
+      <b>İzlek</b>
+    </a>
+  </div>
+</header>
+
+<main>
+
+  <!-- FORM -->
+  <div class="orta" id="formKutu">
+    <h1>Yeni şifrenizi belirleyin</h1>
+    <p>Belirlediğiniz şifreyle uygulamaya giriş yapacaksınız.</p>
+    <form id="form" novalidate>
+      <div class="alan">
+        <label for="s1">Yeni şifre</label>
+        <div class="kutu">
+          <input type="password" id="s1" autocomplete="new-password" required>
+          <button type="button" class="goster" data-hedef="s1">Göster</button>
+        </div>
+      </div>
+      <ul class="olcut" id="olcut">
+        <li data-k="uzun">En az 8 karakter</li>
+        <li data-k="buyuk">Büyük harf</li>
+        <li data-k="kucuk">Küçük harf</li>
+        <li data-k="ozel">Özel karakter (örnek: . , ! ? * -)</li>
+      </ul>
+      <div class="alan">
+        <label for="s2">Yeni şifre (tekrar)</label>
+        <div class="kutu">
+          <input type="password" id="s2" autocomplete="new-password" required>
+          <button type="button" class="goster" data-hedef="s2">Göster</button>
+        </div>
+      </div>
+      <p class="hata" id="hata"></p>
+      <button type="submit" class="ana" id="kaydet">Şifremi değiştir</button>
+    </form>
+  </div>
+
+  <!-- OLDU -->
+  <div class="orta gizli" id="oldu">
+    <div class="isaret oldu">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none"
+           stroke="#2F7D5D" stroke-width="2.4"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 6 9 17l-5-5"/>
+      </svg>
+    </div>
+    <h1>Şifreniz değişti</h1>
+    <p class="koyu">Bu sayfayı kapatıp uygulamaya dönün ve yeni şifrenizle giriş yapın.</p>
+  </div>
+
+  <!-- OLMADI -->
+  <div class="orta gizli" id="olmadi">
+    <div class="isaret olmadi">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
+           stroke="#8A4E1C" stroke-width="2.4"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 8v5"/><path d="M12 17h.01"/>
+        <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>
+      </svg>
+    </div>
+    <h1 id="olmadiBaslik">Bağlantı geçerli değil</h1>
+    <p class="koyu" id="olmadiMetin">
+      Şifre sıfırlama bağlantısının süresi dolmuş ya da bağlantı daha
+      önce kullanılmış olabilir.
+    </p>
+    <p>
+      Uygulamanın giriş ekranındaki <b>&#8220;Şifremi unuttum&#8221;</b>
+      bağlantısından yeni bir e-posta isteyin.
+    </p>
+    <p>
+      Sorun sürerse
+      <a href="mailto:iletisim@izlekapp.com.tr">iletisim@izlekapp.com.tr</a>
+      adresine yazabilirsiniz.
+    </p>
+  </div>
+
+</main>
+
+<footer class="kap">
+  <a href="/">Ana sayfa</a>
+  <a href="/gizlilik.html">Gizlilik Politikası</a>
+  <a href="/kvkk.html">KVKK Aydınlatma Metni</a>
+  <a href="/iade.html">İade politikası</a>
+  <div style="margin-top:12px">© 2026 İzlek</div>
+</footer>
+
+<script>
+// ===================================================================
+// Şifre sıfırlama bağlantısı buraya düşüyor: /sifre.html?token=...
+// (Y27 · G11). Önceden bağlantı PocketBase'in İngilizce yönetici
+// ekranını açıyordu. Şifre kuralları uygulamadakiyle aynı
+// (`lib/veri/hesap.dart` → sifreOlcutleri); sunucu yalnızca en az 8
+// karakteri denetliyor, gerisini burası ve uygulama.
+// Jeton istek bitince adres çubuğundan siliniyor.
+// ===================================================================
+(function () {
+  var API = 'https://api.izlekapp.com.tr';
+  var KURAL = {
+    uzun: function (s) { return s.length >= 8; },
+    buyuk: function (s) { return /[A-ZÇĞİÖŞÜ]/.test(s); },
+    kucuk: function (s) { return /[a-zçğıöşü]/.test(s); },
+    ozel: function (s) { return /[^A-Za-zÇĞİÖŞÜçğıöşü0-9\s]/.test(s); }
+  };
+  var IPUCU = {
+    uzun: 'Şifre en az 8 karakter olmalı.',
+    buyuk: 'Şifrenizde en az bir büyük harf olmalı.',
+    kucuk: 'Şifrenizde en az bir küçük harf olmalı.',
+    ozel: 'Şifrenizde en az bir özel karakter olmalı. Örnek: . , ! ? * -'
+  };
+  var $ = function (id) { return document.getElementById(id); };
+
+  function goster(hangi) {
+    ['formKutu', 'oldu', 'olmadi'].forEach(function (ad) {
+      $(ad).classList.toggle('gizli', ad !== hangi);
+    });
+  }
+  function basarisiz(baslik, metin) {
+    if (baslik) $('olmadiBaslik').textContent = baslik;
+    if (metin) $('olmadiMetin').textContent = metin;
+    goster('olmadi');
+  }
+
+  var jeton = new URLSearchParams(location.search).get('token');
+  if (!jeton && location.hash) {
+    var parcalar = location.hash.split('/');
+    var son = parcalar[parcalar.length - 1];
+    if (son && son.length > 20) jeton = son;
+  }
+  if (!jeton) {
+    basarisiz('Bağlantı eksik görünüyor',
+      'Adres tam olarak açılmamış olabilir. E-postadaki bağlantıya yeniden dokunmayı deneyin.');
+    return;
+  }
+
+  function olcutleriBoya() {
+    var s = $('s1').value;
+    Array.prototype.forEach.call($('olcut').children, function (li) {
+      li.classList.toggle('tamam', KURAL[li.getAttribute('data-k')](s));
+    });
+  }
+  $('s1').addEventListener('input', olcutleriBoya);
+
+  Array.prototype.forEach.call(document.querySelectorAll('.goster'), function (d) {
+    d.addEventListener('click', function () {
+      var g = $(d.getAttribute('data-hedef'));
+      var acik = g.type === 'password';
+      g.type = acik ? 'text' : 'password';
+      d.textContent = acik ? 'Gizle' : 'Göster';
+    });
+  });
+
+  $('form').addEventListener('submit', function (olay) {
+    olay.preventDefault();
+    var s1 = $('s1').value, s2 = $('s2').value;
+    for (var k in KURAL) {
+      if (!KURAL[k](s1)) { $('hata').textContent = IPUCU[k]; return; }
+    }
+    if (s1 !== s2) { $('hata').textContent = 'İki şifre aynı değil.'; return; }
+    $('hata').textContent = '';
+    $('kaydet').disabled = true;
+    $('kaydet').textContent = 'Kaydediliyor…';
+
+    var istek = new XMLHttpRequest();
+    istek.open('POST', API + '/api/collections/users/confirm-password-reset', true);
+    istek.setRequestHeader('Content-Type', 'application/json');
+    istek.timeout = 20000;
+    istek.onload = function () {
+      if (istek.status >= 200 && istek.status < 300) {
+        history.replaceState(null, '', location.pathname);
+        goster('oldu');
+        return;
+      }
+      var veri = {};
+      try { veri = JSON.parse(istek.responseText) || {}; } catch (_) {}
+      var alanlar = veri.data || {};
+      if (alanlar.token || !alanlar.password) {
+        history.replaceState(null, '', location.pathname);
+        basarisiz();
+        return;
+      }
+      $('hata').textContent = 'Bu şifre kabul edilmedi. Başka bir şifre deneyin.';
+      $('kaydet').disabled = false;
+      $('kaydet').textContent = 'Şifremi değiştir';
+    };
+    istek.onerror = istek.ontimeout = function () {
+      $('hata').textContent = 'Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol edip yeniden deneyin.';
+      $('kaydet').disabled = false;
+      $('kaydet').textContent = 'Şifremi değiştir';
+    };
+    istek.send(JSON.stringify({ token: jeton, password: s1, passwordConfirm: s2 }));
+  });
+})();
+</script>
+
+</body>
+</html>
