@@ -79,6 +79,18 @@
   .dugme.bos{border-color:rgba(255,255,255,.34); color:#fff}
   .kucukNot{font-size:13px; color:#9FB4D0; margin:14px 0 0}
 
+  /* Mağaza rozetleri (10 Ekim 2026): resmî Apple ve Google rozetleri.
+     Google'ın PNG'sinde kendi boşluğu var; görünür yükseklikleri eşit
+     olsun diye büyütülüp kenarları geri çekiliyor. */
+  .magaza{display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin:0 0 18px}
+  .magaza a{display:inline-flex; line-height:0; border-radius:10px}
+  .magaza a:focus-visible{outline:2px solid #fff; outline-offset:3px}
+  .magaza img.apple{height:52px; width:auto}
+  .magaza img.google{height:79px; width:auto; margin:-13px -3px}
+  .kapanis .magaza{justify-content:center; margin:0 0 18px}
+  .kapanis .iletisim{color:#C6D4E8; font-size:14px}
+  .kapanis .iletisim a{color:#fff}
+
   /* ---------- TELEFON ---------- */
   /*
     Telefonun içinde **uygulamanın gerçek ekran görüntüleri** duruyor
@@ -313,12 +325,22 @@
 <section class="kahraman">
   <div class="kap">
     <div>
-      <div class="rozet"><span></span> Yeni eğitim yılına hazırlanıyor</div>
+      <div class="rozet"><span></span> App Store ve Google Play'de</div>
       <h1>Planlar hazır.<br>Akşam sizin.</h1>
       <p class="alt">
         Okul öncesi öğretmenleri için günlük plan, aylık plan, resmî
         evrak ve veli bülteni. Telefonunuzda, internet olmadan da.
       </p>
+      <div class="magaza">
+        <a href="https://apps.apple.com/tr/app/id6811076580" rel="noopener">
+          <img class="apple" src="/app-store-rozet.svg" width="156" height="52"
+               alt="App Store'dan indirin">
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=tr.com.izlekapp" rel="noopener">
+          <img class="google" src="/google-play-rozet.png" width="204" height="79"
+               alt="Google Play'den indirin">
+        </a>
+      </div>
       <div class="dugmeler">
         <a class="dugme dolu" href="#nedir">
           Neler var, bakayım
@@ -329,7 +351,7 @@
         </a>
         <a class="dugme bos" href="#mahremiyet">Verilere ne oluyor?</a>
       </div>
-      <p class="kucukNot">Google Play'de yakında · İlk kayıtta deneme süresi</p>
+      <p class="kucukNot">iPhone ve Android · İlk kayıtta 3 gün ücretsiz deneme</p>
     </div>
 
     <!-- Telefonun içinde uygulamanın gerçek ekranları var.
@@ -666,13 +688,23 @@
 <section class="bolum">
   <div class="kap">
     <div class="kapanis">
-      <h2>Yeni eğitim yılına hazırlanıyor</h2>
+      <h2>İzlek telefonunuzda</h2>
       <p>
-        Yayına çıktığında haberdar olmak için bize yazabilirsiniz.
+        İlk kayıtta 3 gün ücretsiz deneme. Kart bilgisi istenmez.
       </p>
-      <a class="dugme dolu" href="mailto:iletisim@izlekapp.com.tr?subject=%C4%B0zlek%20hakk%C4%B1nda">
-        iletisim@izlekapp.com.tr
+      <div class="magaza">
+      <a href="https://apps.apple.com/tr/app/id6811076580" rel="noopener">
+        <img class="apple" src="/app-store-rozet.svg" width="156" height="52"
+             alt="App Store'dan indirin">
       </a>
+      <a href="https://play.google.com/store/apps/details?id=tr.com.izlekapp" rel="noopener">
+        <img class="google" src="/google-play-rozet.png" width="204" height="79"
+             alt="Google Play'den indirin">
+      </a>
+    </div>
+      <p class="iletisim">Sorunuz mu var?
+        <a href="mailto:iletisim@izlekapp.com.tr?subject=%C4%B0zlek%20hakk%C4%B1nda">iletisim@izlekapp.com.tr</a>
+      </p>
     </div>
   </div>
 </section>
